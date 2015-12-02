@@ -67,6 +67,27 @@ angular.module('brushfire').controller('showVideoPageController', ['$scope', '$h
     $scope.$apply();
   });
 
+  io.socket.on('typing', function (e) {
+    console.log('typing!', e);
+
+    $scope.usernameTyping = e.username;
+    $scope.typing = true;
+
+    // Because io.socket.on() is not an angular thing, we have to call $scope.$apply()
+    // in this event handler in order for our changes to the scope to actually take effect.
+    $scope.$apply();
+  });
+
+  io.socket.on('stoppedTyping', function (e) {
+    console.log('stoppedTyping!', e);
+
+    $scope.typing = false;
+
+    // Because io.socket.on() is not an angular thing, we have to call $scope.$apply()
+    // in this event handler in order for our changes to the scope to actually take effect.
+    $scope.$apply();
+  });
+
 /* 
   _____   ____  __  __   ______               _       
  |  __ \ / __ \|  \/  | |  ____|             | |      
@@ -105,4 +126,43 @@ angular.module('brushfire').controller('showVideoPageController', ['$scope', '$h
       // TODO: hide loading state / unlock
     });
   };//</sendMessage>
+
+  $scope.whenTyping = function (event) {
+     //the model you typing
+     console.log($scope.message);
+     //the event typing
+     console.log(event);
+
+     $http.put('/videos/'+$scope.fromUrlVideoId+'/typing', {})
+    .then(function onSuccess(sailsResponse){
+      console.log(sailsResponse);
+      
+    })
+    .catch(function onError(sailsResponse){
+      console.error('sailsresponse: ', sailsResponse);
+    })
+    .finally(function eitherway(){
+      
+    });
+  };//</whenTyping>
+
+
+   $scope.whenNotTyping = function (event) {
+     //the model you typing
+     console.log($scope.message);
+     //the event typing
+     console.log(event);
+
+     $http.put('/videos/'+$scope.fromUrlVideoId+'/stoppedTyping', {})
+    .then(function onSuccess(sailsResponse){
+      console.log(sailsResponse);
+      
+    })
+    .catch(function onError(sailsResponse){
+      console.error('sailsresponse: ', sailsResponse);
+    })
+    .finally(function eitherway(){
+      
+    });
+  };//</whenNotTyping>
 }]);

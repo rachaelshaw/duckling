@@ -45,10 +45,13 @@ typeof chats !== 'undefined' ? JSON.stringify(chats) : 'null'
               </ul>
             </div>
             <div class="panel-footer">
+              <div ng-show="typing">
+                {{usernameTyping}} is typing...<i class="overlord-loading-spinner fa fa-spinner" ></i>
+              </div>
               <div class="input-group">
-                <input id="btn-input" type="text" class="form-control input-sm" ng-model="message"placeholder="Type your message here...">
+                <input id="btn-input" type="text" class="form-control input-sm" ng-model="message"placeholder="Type your message here..." ng-keypress="whenTyping($event)" ng-blur="whenNotTyping($event)" ng-disabled="!me">
                 <span class="input-group-btn">
-                  <button type="submit" ng-disabled="!hasJoinedRoom" class="btn btn-success btn-sm" id="btn-chat">
+                  <button type="submit" ng-disabled="!hasJoinedRoom || !me" class="btn btn-success btn-sm" id="btn-chat">
                   Send</button>
                 </span>
               </div>

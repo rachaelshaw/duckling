@@ -112,11 +112,8 @@ module.exports = {
   },
 
   chat: function(req, res) {
-    // req.param('message')
-
-    // Create a chat record and associate it with the video
-    // and the originating user.
-    // TODO
+    
+    if (!req.session.userId) return res.badRequest();
     
     Chat.create({
       message: req.param('message'),
@@ -125,18 +122,56 @@ module.exports = {
     }).exec(function (err, createdChat){
       if (err) return res.negotiate(err);
 
+      User.findOne({
+        id: req.session.userId
+      }).exec(function (err, foundUser){
+        if (err) return res.negotiate(err);
+        if (!foundUser) return res.notFound();
+
+        // Broadcast socket event to everyone else currently online so their user agents
+        // can update the UI for them.
+        sails.sockets.broadcast('video'+req.param('id'), 'message', {
+          message: req.param('message'),
+          username: foundUser.username,
+          created: 'just now',
+          gravatarURL: foundUser.gravatarURL
+        }, (req.isSocket ? req : undefined) );
+
+        return res.ok();
+        
+      });
+    });
+  },
+
+  typing: function(req, res) {
+
+    if (!req.session.userId) return res.badRequest();
+
+    User.findOne({
+      id: req.session.userId
+    }).exec(function (err, foundUser){
+      if (err) return res.negotiate(err);
+      if (!foundUser) return res.notFound();
+
       // Broadcast socket event to everyone else currently online so their user agents
       // can update the UI for them.
-      sails.sockets.broadcast('video'+req.param('id'), 'message', {
-        message: req.param('message'),
-        username: 'Roger RAbbit',
-        created: 'just now',
-        gravatarURL: 'http://www.gravatar.com/avatar/c06112bbecd8a290a00441bf181a24d3?'
+      sails.sockets.broadcast('video'+req.param('id'), 'typing', {
+        username: foundUser.username
       }, (req.isSocket ? req : undefined) );
 
       return res.ok();
-      
     });
+  },
+
+  stoppedTyping: function(req, res) {
+
+    if (!req.session.userId) return res.badRequest();
+
+    // Broadcast socket event to everyone else currently online so their user agents
+    // can update the UI for them.
+    sails.sockets.broadcast('video'+req.param('id'), 'stoppedTyping', {}, (req.isSocket ? req : undefined) );
+
+    return res.ok();
   }
 };
 
