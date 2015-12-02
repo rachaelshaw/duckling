@@ -1,5 +1,5 @@
 /**
-* Video.js
+* Chat.js
 *
 * @description :: TODO: You might write a short summary of how this model works and what it represents here.
 * @docs        :: http://sailsjs.org/#!documentation/models
@@ -9,25 +9,16 @@ module.exports = {
 
   attributes: {
 
-    title: {
+    message: {
       type: 'string'
     },
 
-    src: {
-      type: 'string'
+    sender: {
+      model: 'user'
     },
 
-    lengthInSeconds: {
-      type: 'integer'
-    },
-
-    tutorialAssoc: {
-      model: 'tutorial'
-    },
-
-    chats: {
-      collection: 'chat',
-      via: 'video'
+    video: {
+      model: 'video'
     }
   }
 };

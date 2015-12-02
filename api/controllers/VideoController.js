@@ -97,13 +97,45 @@ module.exports = {
     });
   },
 
-  joinChat: function(req, res) {
+  joinChat: function (req, res) {
+
+    // Nothing except socket requests should ever hit this endpoint.
+    if (!req.isSocket) {
+      return res.badRequest();
+    }
+    // TODO: ^ pull this into a `isSocketRequest` policy
+
+    // Join the chat room for this video (as the requesting socket)
+    sails.sockets.join(req.socket, 'video'+req.param('id'));
+
     return res.ok();
   },
 
   chat: function(req, res) {
-    return res.json({
-      message: req.param('message')
+    // req.param('message')
+
+    // Create a chat record and associate it with the video
+    // and the originating user.
+    // TODO
+    
+    Chat.create({
+      message: req.param('message'),
+      sender: req.session.userId,
+      video: +req.param('id')
+    }).exec(function (err, createdChat){
+      if (err) return res.negotiate(err);
+
+      // Broadcast socket event to everyone else currently online so their user agents
+      // can update the UI for them.
+      sails.sockets.broadcast('video'+req.param('id'), 'message', {
+        message: req.param('message'),
+        username: 'Roger RAbbit',
+        created: 'just now',
+        gravatarURL: 'http://www.gravatar.com/avatar/c06112bbecd8a290a00441bf181a24d3?'
+      }, (req.isSocket ? req : undefined) );
+
+      return res.ok();
+      
     });
   }
 };
