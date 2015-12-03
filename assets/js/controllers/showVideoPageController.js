@@ -101,10 +101,16 @@ angular.module('brushfire').controller('showVideoPageController', ['$scope', '$h
   // Send chat to the chat action of the video controller
   $scope.sendMessage = function() {
 
-    $http.post('/videos/'+$scope.fromUrlVideoId+'/chat', {
+    io.socket.post('/videos/'+$scope.fromUrlVideoId+'/chat', {
       message: $scope.message
-    })
-    .then(function onSuccess(sailsResponse){
+    }, function (data, JWR){
+
+      // If something went wrong, handle the error.
+      if (JWR.statusCode !== 200) {
+        console.error(JWR);
+        // TODO
+        return;
+      }
 
       // Clear out the chat message field.
       // (but rescue its contents first so we can append them)
@@ -118,51 +124,60 @@ angular.module('brushfire').controller('showVideoPageController', ['$scope', '$h
         message: messageWeJustChatted,
         gravatarURL: $scope.me.gravatarURL
       });
-    })
-    .catch(function onError(sailsResponse){
-      console.error('sailsresponse: ', sailsResponse);
-    })
-    .finally(function eitherway(){
-      // TODO: hide loading state / unlock
+
+      $scope.$apply();
     });
   };//</sendMessage>
 
   $scope.whenTyping = function (event) {
-     //the model you typing
-     console.log($scope.message);
-     //the event typing
-     console.log(event);
 
-     $http.put('/videos/'+$scope.fromUrlVideoId+'/typing', {})
-    .then(function onSuccess(sailsResponse){
-      console.log(sailsResponse);
-      
-    })
-    .catch(function onError(sailsResponse){
-      console.error('sailsresponse: ', sailsResponse);
-    })
-    .finally(function eitherway(){
-      
+    io.socket.request({
+      url: '/videos/'+$scope.fromUrlVideoId+'/typing',
+      method: 'put'
+    }, function (data, JWR){
+        // If something went wrong, handle the error.
+        if (JWR.statusCode !== 200) {
+          console.error(JWR);
+          // TODO
+          return;
+        }
     });
   };//</whenTyping>
 
+  // $scope.whenTyping = function (event) {
+  //   io.socket.put('/videos/'+$scope.fromUrlVideoId+'/typing', {}, function (data, JWR){
+  //     // If something went wrong, handle the error.
+  //     if (JWR.statusCode !== 200) {
+  //       console.error(JWR);
+  //       // TODO
+  //       return;
+  //     }
+  //   });
+  // };
 
-   $scope.whenNotTyping = function (event) {
-     //the model you typing
-     console.log($scope.message);
-     //the event typing
-     console.log(event);
+  // $scope.whenNotTyping = function (event) {
+  //   io.socket.put('/videos/'+$scope.fromUrlVideoId+'/stoppedTyping', {}, function (data, JWR){
+  //     // If something went wrong, handle the error.
+  //     if (JWR.statusCode !== 200) {
+  //       console.error(JWR);
+  //       // TODO
+  //       return;
+  //     }
+  //   });
+  // };
 
-     $http.put('/videos/'+$scope.fromUrlVideoId+'/stoppedTyping', {})
-    .then(function onSuccess(sailsResponse){
-      console.log(sailsResponse);
-      
-    })
-    .catch(function onError(sailsResponse){
-      console.error('sailsresponse: ', sailsResponse);
-    })
-    .finally(function eitherway(){
-      
+  $scope.whenNotTyping = function (event) {
+
+    io.socket.request({
+      url: '/videos/'+$scope.fromUrlVideoId+'/stoppedTyping',
+      method: 'put'
+    }, function (data, JWR){
+        // If something went wrong, handle the error.
+        if (JWR.statusCode !== 200) {
+          console.error(JWR);
+          // TODO
+          return;
+        }
     });
   };//</whenNotTyping>
 }]);
