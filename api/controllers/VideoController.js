@@ -113,8 +113,6 @@ module.exports = {
 
   chat: function(req, res) {
     
-    if (!req.session.userId) return res.badRequest();
-    
     Chat.create({
       message: req.param('message'),
       sender: req.session.userId,
@@ -135,7 +133,7 @@ module.exports = {
           username: foundUser.username,
           created: 'just now',
           gravatarURL: foundUser.gravatarURL
-        }, (req.isSocket ? req : undefined) );
+        });
 
         return res.ok();
         
@@ -144,8 +142,6 @@ module.exports = {
   },
 
   typing: function(req, res) {
-
-    if (!req.session.userId) return res.badRequest();
 
     User.findOne({
       id: req.session.userId
@@ -165,11 +161,10 @@ module.exports = {
 
   stoppedTyping: function(req, res) {
 
-    if (!req.session.userId) return res.badRequest();
-
     // Broadcast socket event to everyone else currently online so their user agents
     // can update the UI for them.
-    sails.sockets.broadcast('video'+req.param('id'), 'stoppedTyping', {}, (req.isSocket ? req : undefined) );
+    sails.sockets.broadcast('video'+req.param('id'),
+      'stoppedTyping', {}, (req.isSocket ? req : undefined) );
 
     return res.ok();
   }

@@ -30,7 +30,7 @@ angular.module('brushfire').controller('showVideoPageController', ['$scope', '$h
   $scope.hasJoinedRoom = false;
 
   // Send a socket request to join the chat room.
-  io.socket.get('/videos/'+ $scope.fromUrlVideoId + '/join', function (data, JWR) {
+  io.socket.put('/videos/'+ $scope.fromUrlVideoId + '/join', function (data, JWR) {
     // If something went wrong, handle the error.
     if (JWR.statusCode !== 200) {
       console.error(JWR);
@@ -117,13 +117,13 @@ angular.module('brushfire').controller('showVideoPageController', ['$scope', '$h
       var messageWeJustChatted = $scope.message;
       $scope.message = '';
 
-      // Append the chat we just sent to the DOM.
-      $scope.chats.push({
-        created: 'just now',
-        username: $scope.me.username,
-        message: messageWeJustChatted,
-        gravatarURL: $scope.me.gravatarURL
-      });
+      // // Append the chat we just sent to the DOM.
+      // $scope.chats.push({
+      //   created: 'just now',
+      //   username: $scope.me.username,
+      //   message: messageWeJustChatted,
+      //   gravatarURL: $scope.me.gravatarURL
+      // });
 
       $scope.$apply();
     });
