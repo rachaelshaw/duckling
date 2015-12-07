@@ -985,7 +985,7 @@ module.exports = {
 
   showVideo: function(req, res) {
 
-    // Find the video to play
+    // Find the video to play and populate the video `chat` association
     Video.findOne({
       id: +req.param('id')
     })
@@ -1011,6 +1011,17 @@ module.exports = {
       }, function(err) {
         if (err) return res.negotiate(err);
 
+        /*
+            _____                                      
+           |  __ \                                     
+           | |__) |___  ___ _ __   ___  _ __  ___  ___ 
+           |  _  // _ \/ __| '_ \ / _ \| '_ \/ __|/ _ \
+           | | \ \  __/\__ \ |_) | (_) | | | \__ \  __/
+           |_|  \_\___||___/ .__/ \___/|_| |_|___/\___|
+                           | |                         
+                           |_|                                             
+         */
+
         // If not logged in
         if (!req.session.userId) {
           return res.view('show-video', {
@@ -1030,7 +1041,7 @@ module.exports = {
           }
 
           if (!foundUser) {
-            sails.log.verbose('Session refers to a user who no longer exists- did you delete a user, then try to refresh the page with an open tab logged-in as that user?');
+            sails.log.verbose('Session refers to a user who no longer exists');
             return res.view('show-video', {
               me: null,
               video: foundVideo,
