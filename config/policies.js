@@ -78,6 +78,8 @@ module.exports.policies = {
   VideosController: {
     reorderVideoUp: ['isLoggedIn'],
     reorderVideoDown: ['isLoggedIn'],
-    chat: ['isLoggedIn']
+    chat: ['isLoggedIn'],
+    typing: ['isLoggedIn'],
+    stoppedTyping: ['isLoggedIn']
   }
 };
