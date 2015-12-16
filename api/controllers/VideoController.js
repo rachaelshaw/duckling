@@ -106,12 +106,22 @@ module.exports = {
     // TODO: ^ pull this into a `isSocketRequest` policy
 
     // Join the chat room for this video (as the requesting socket)
-    sails.sockets.join(req.socket, 'video'+req.param('id'));
+    sails.sockets.join(req, 'video'+req.param('id'));
 
+
+    Video.subscribe(req, req.param('id') );
+
+    // Video.watch(req);
     return res.ok();
   },
 
   chat: function(req, res) {
+
+    // Nothing except socket requests should ever hit this endpoint.
+    if (!req.isSocket) {
+      return res.badRequest();
+    }
+    // TODO: ^ pull this into a `isSocketRequest` policy
     
     Chat.create({
       message: req.param('message'),
@@ -128,12 +138,56 @@ module.exports = {
 
         // Broadcast socket event to everyone else currently online so their user agents
         // can update the UI for them.
-        sails.sockets.broadcast('video'+req.param('id'), 'message', {
+        // sails.sockets.broadcast('video'+req.param('id'), 'chat', {
+        //   message: req.param('message'),
+        //   username: foundUser.username,
+        //   created: 'just now',
+        //   gravatarURL: foundUser.gravatarURL
+        // });
+
+        Video.publishUpdate(+req.param('id'), {
           message: req.param('message'),
           username: foundUser.username,
           created: 'just now',
           gravatarURL: foundUser.gravatarURL
         });
+
+        // Video.publishAdd(+req.param('id'), 'chats', createdChat.id, null, {
+        //   message: req.param('message'),
+        //   username: foundUser.username,
+        //   created: 'just now',
+        //   gravatarURL: foundUser.gravatarURL
+        // });
+        
+        // Working publishCreate Example w/ .watch() in join action.
+        // sends:
+        /*
+          {
+            id: 1, 
+            verb: 'created',
+            data: {
+              created: "just now",
+              gravatarURL: "http://www.gravatar.com/avatar/ef3eac6c71fdf24b13db12d8ff8d1264?",
+              id: 1,
+              message: "a",
+              username: "sails-in-action"
+            }
+          }
+         */
+        // Video.publishCreate({
+        //   id: createdChat.id,
+        //   message: req.param('message'),
+        //   username: foundUser.username,
+        //   created: 'just now',
+        //   gravatarURL: foundUser.gravatarURL
+        // });
+
+        // Video.message(req, {
+        //   message: req.param('message'),
+        //   username: foundUser.username,
+        //   created: 'just now',
+        //   gravatarURL: foundUser.gravatarURL
+        // });
 
         return res.ok();
         
@@ -142,6 +196,12 @@ module.exports = {
   },
 
   typing: function(req, res) {
+
+    // Nothing except socket requests should ever hit this endpoint.
+    if (!req.isSocket) {
+      return res.badRequest();
+    }
+    // TODO: ^ pull this into a `isSocketRequest` policy
 
     User.findOne({
       id: req.session.userId
@@ -160,6 +220,12 @@ module.exports = {
   },
 
   stoppedTyping: function(req, res) {
+
+    // Nothing except socket requests should ever hit this endpoint.
+    if (!req.isSocket) {
+      return res.badRequest();
+    }
+    // TODO: ^ pull this into a `isSocketRequest` policy
 
     // Broadcast socket event to everyone else currently online so their user agents
     // can update the UI for them.

@@ -49,17 +49,50 @@ angular.module('brushfire').controller('showVideoPageController', ['$scope', '$h
     $scope.$apply();
   });
 
-  // Handle socket events that are fired when a new chat message is sent.
-  io.socket.on('message', function (e) {
+
+  io.socket.put('/videos/'+ $scope.fromUrlVideoId + '/join', function (data, JWR) {
+    // If something went wrong, handle the error.
+    if (JWR.statusCode !== 200) {
+      console.error(JWR);
+      // TODO
+      return;
+    }
+
+    // If the server gave us its blessing and indicated that we were
+    // able to successfully join the room, then we'll set that on the
+    // scope to allow the user to start sending chats.
+    // 
+    // Note that, at this point, we'll also be able to start _receiving_ chats.
+    $scope.hasJoinedRoom = true;
+
+    // Because io.socket.get() is not an angular thing, we have to call $scope.$apply()
+    // in this callback in order for our changes to the scope to actually take effect.
+    $scope.$apply();
+  });
+
+  // Handle socket events that are fired when a new chat event is sent (.broadcast)
+  // io.socket.on('chat', function (e) {
+  //   console.log('new chat received!', e);
+
+  //   // Append the chat we just received    
+  //   $scope.chats.push({
+  //     created: e.created,
+  //     username: e.username,
+  //     message: e.message,
+  //     gravatarURL: e.gravatarURL
+  //   });
+  
+
+  io.socket.on('video', function (e) {
     console.log('new chat received!', e);
 
-    // Append the chat we just received (sent by someone else)
+    // Append the chat we just received
     // to the DOM. (it'll never be from us since we're using `broadcast()` on the backend)    
     $scope.chats.push({
-      created: e.created,
-      username: e.username,
-      message: e.message,
-      gravatarURL: e.gravatarURL
+      created: e.data.created,
+      username: e.data.username,
+      message: e.data.message,
+      gravatarURL: e.data.gravatarURL
     });
 
     // Because io.socket.on() is not an angular thing, we have to call $scope.$apply()
