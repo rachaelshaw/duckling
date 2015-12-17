@@ -1,5 +1,5 @@
 angular.module('brushfire', ['toastr', 'compareTo', 'ui.bootstrap'])
-  .config(function($sceDelegateProvider) {
+  .config(['$sceDelegateProvider', function($sceDelegateProvider) {
     $sceDelegateProvider.resourceUrlWhitelist([
       'self',
       '*://www.youtube.com/**'
