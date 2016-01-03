@@ -10,9 +10,15 @@
  */
 
 module.exports.bootstrap = function(cb) {
-  var FixtureBootstrapper = require('../fixtures');
-  return FixtureBootstrapper(cb);
 
+  User.find().exec(function(err, user) {
+    if(err) { return cb(err); }
+    if(user) { return cb(); }
+
+    var FixtureBootstrapper = require('../fixtures');
+    return FixtureBootstrapper(cb);
+
+  });
   // var async = require('async');
   // var Passwords = require('machinepack-passwords');
   // var Gravatar = require('machinepack-gravatar');
