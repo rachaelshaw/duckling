@@ -53,7 +53,25 @@ process.chdir(__dirname);
     }
   }
 
+  // Disable grunt if in production mode
 
-  // Start server
-  sails.lift(rc('sails'));
+  // Pulls any additional configuration properties from the sails.rc file and adds it into the config dictionary.
+  var config = rc('sails');
+
+  /*
+   We want to know what environment mode we're in.  The mother of all environment variables in node is NODE_ENV. Once Node loads we can access NODE_ENV from the `process` dictionary.  The `process` dictionary is one of the global dictionaries of Node.  That is we can access it from anywhere as it is globally available. `process.env` contains the user environment for a running node instance. So where does this get set?  We can set it manually from the command-line, however, the PaaS usuallly sets this for us. For example, during the heroku build process, Heroku will set NODE_ENV to production.  We're going to be altering the Heroku default build package because we want our grunt tasks for production to run during the build process.
+   */
+
+   // Check to if we're in production mode.
+   if (process.env.NODE_ENV === 'production' || process.env.nogrunt) {
+
+    // If there's no .rc or you haven't configured a hooks object in your rc file then set it to empty dictionary
+    config.hooks = config.hooks || {};
+
+    // turn grunt completely off
+    config.hooks.grunt = false;
+  }
+
+  // Start server and passing the config we just built up into Sails
+  sails.lift(config);
 })();
