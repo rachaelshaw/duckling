@@ -11,9 +11,9 @@
 
 module.exports.bootstrap = function(cb) {
 
-  User.findOne().exec(function(err, user) {
+  User.find().limit(1).exec(function(err, user) {
     if(err) { return cb(err); }
-    if(user) { return cb(); }
+    if(user.length >0) { return cb(); }
 
     var FixtureBootstrapper = require('../fixtures');
     return FixtureBootstrapper(cb);
