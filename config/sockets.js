@@ -44,7 +44,8 @@ module.exports.sockets = {
   // -OR-
   //
 
-  // adapter: 'redis',
+  // adapter: 'socket.io-redis',
+  // url: process.env.REDISTOGO_URL,
   // host: '127.0.0.1',
   // port: 6379,
   // db: 'sails',
