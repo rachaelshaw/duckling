@@ -10,8 +10,16 @@
  */
 
 module.exports.bootstrap = function(cb) {
-  var FixtureBootstrapper = require('../fixtures');
-  return FixtureBootstrapper(cb);
+
+  
+  User.find().exec(function(err, user) {
+    if(err) { return cb(err); }
+    if(user.length > 1) { return cb(); }
+
+    var FixtureBootstrapper = require('../fixtures');
+    return FixtureBootstrapper(cb);
+
+  });
 
   // var async = require('async');
   // var Passwords = require('machinepack-passwords');
