@@ -6,6 +6,7 @@
   "keywords": [],
   "dependencies": {
     "async": "^1.4.2",
+    "connect-redis": "^3.0.2",
     "ejs": "~0.8.4",
     "grunt": "0.4.2",
     "grunt-contrib-clean": "~0.5.0",
@@ -35,13 +36,19 @@
   },
   "scripts": {
     "debug": "node debug app.js",
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "NODE_ENV=test mocha --recursive -t 5000"
   },
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/irlnathan/bf-pre14-end.git"
+    "url": "git://github.com/irlnathan/bf-pre15-end.git"
   },
   "author": "Mike McNeil/Irl Nathan",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^2.3.4",
+    "sails-memory": "^0.10.5",
+    "supertest": "^1.1.0"
+  }
 }
