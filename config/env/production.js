@@ -32,7 +32,12 @@ module.exports = {
   sockets: {
     adapter: 'socket.io-redis',
     url: process.env.REDISTOGO_URL,
-  }
+  },
+
+  session: {
+    adapter: 'redis',
+    url: process.env.REDISTOGO_URL
+  },
 
   /***************************************************************************
    * Set the port in the production environment to 80                        *
