@@ -42,9 +42,7 @@ module.exports.session = {
   ***************************************************************************/
 
   adapter: 'redis',
-
-  // url: process.env.REDISTOGO_URL,
-
+  
   /***************************************************************************
   *                                                                          *
   * The following values are optional, if no options are set a redis         *
