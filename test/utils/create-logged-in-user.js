@@ -4,18 +4,19 @@
 
 var request = require('supertest');
 var Passwords = require('machinepack-passwords');
+var USER_FIXTURE = require('../fixtures/user');
 
 module.exports = function(agent, cb) {
   // Encrypt the password
   Passwords.encryptPassword({
-    password: 'abc123'
+    password: USER_FIXTURE.password
   })
   .exec({
     error: cb,
     success: function(password) {
       User.create({
-        username: 'test',
-        email: 'test@test.com',
+        username: USER_FIXTURE.username,
+        email: USER_FIXTURE.email,
         encryptedPassword: password
       })
       .exec(function(err, user) {
@@ -25,13 +26,13 @@ module.exports = function(agent, cb) {
         agent
         .put('/login')
         .send({
-          username: 'test',
-          password: 'abc123'
+          username: USER_FIXTURE.username,
+          password: USER_FIXTURE.password
         })
         .set('Content-Type', 'application/json')
         .end(function(err, res) {
           if(err) { return cb(err); }
-          cb();
+          return cb();
         });
       });
     }

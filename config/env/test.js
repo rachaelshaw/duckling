@@ -8,7 +8,9 @@
 module.exports = {
 
   models: {
-    connection: 'memory'
+    connection: 'memory',
+    schema: true,
+    migrations: 'drop'
   },
 
   connections: {
