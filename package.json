@@ -44,6 +44,9 @@
     "type": "git",
     "url": "git://github.com/irlnathan/bf-pre15-end.git"
   },
+  "engines": {
+    "node": "4.2.3"
+  },
   "author": "Mike McNeil/Irl Nathan",
   "license": "MIT",
   "devDependencies": {
