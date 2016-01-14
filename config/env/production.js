@@ -39,11 +39,11 @@ module.exports = {
     url: process.env.REDISTOGO_URL
   },
 
-  mailgun: {
-    apiKey: process.env.MAILGUN_API_KEY,
-    domain: process.env.MAILGUN_DOMAIN, 
-    baseUrl: process.env.MAILGUN_BASE_URL
-  },
+  // mailgun: {
+  //   apiKey: process.env.MAILGUN_API_KEY,
+  //   domain: process.env.MAILGUN_DOMAIN, 
+  //   baseUrl: process.env.MAILGUN_BASE_URL
+  // },
 
   /***************************************************************************
    * Set the port in the production environment to 80                        *
