@@ -1,3 +1,5 @@
+// console.log('HETETETE')
+
 /**
  * app.js
  *
@@ -71,7 +73,7 @@ process.chdir(__dirname);
     // turn grunt completely off
     config.hooks.grunt = false;
   }
-
+  
   // Start server and passing the config we just built up into Sails
   sails.lift(config);
 })();

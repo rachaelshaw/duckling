@@ -10,10 +10,19 @@ describe('User Controller :: ', function() {
 
     // Testing when authenticated
     describe('When logged in :: ', function() {
+
+      // A placeholder that will simulate an instance of a browser
       var agent;
-      // Before we start the test, create a user and login
+      
+      // Before we start the test, create a user and then login
       before(function(done) {
-      agent = request.agent(sails.hooks.http.app);
+
+        // By using request.agent and passing in the app dictionary we can
+        // now simulate persistent cookies in addition to making requests.
+        // request.agent gets properties like the existing `port` and fully
+        // qualified url. 
+        agent = request.agent(sails.hooks.http.app);
+        
         // Encrypt the password
         Passwords.encryptPassword({
           password: 'abc123'
@@ -21,6 +30,8 @@ describe('User Controller :: ', function() {
         .exec({
           error: done,
           success: function(password) {
+
+            // Create the user
             User.create({
               username: 'test',
               email: 'test@test.com',
@@ -29,8 +40,7 @@ describe('User Controller :: ', function() {
             .exec(function(err, user) {
               if(err) { return done(err); }
 
-              console.log('user:: ', user);
-              // Login the user
+              // Authenticate the newly created user
               agent
               .put('/login')
               .send({
@@ -50,7 +60,7 @@ describe('User Controller :: ', function() {
 
       it('should return a 403 response code', function(done) {
 
-        // Make the http request
+        // Make a request to signup a new user
         agent
         .post('/user/signup')
         .send({
@@ -62,10 +72,10 @@ describe('User Controller :: ', function() {
         .end(function(err, res) {
           if(err) { return done(err); }
 
-          // Check that the status code is a 403
+          // Check that the status code return is a 403
           assert.equal(res.statusCode, 403);
 
-          done();
+          return done();
         });
       });
 
