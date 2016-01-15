@@ -3,7 +3,6 @@
 
 var assert = require('assert');
 var request = require('supertest');
-var Passwords = require('machinepack-passwords');
 
 describe('User Controller :: ', function() {
   describe('POST /user/signup :: ', function() {
@@ -17,45 +16,18 @@ describe('User Controller :: ', function() {
       // Before we start the test, create a user and then login
       before(function(done) {
 
+        var createUserAndAuthenticate = require('../utils/create-logged-in-user');
+
         // By using request.agent and passing in the app dictionary we can
         // now simulate persistent cookies in addition to making requests.
         // request.agent gets properties like the existing `port` and fully
         // qualified url. 
         agent = request.agent(sails.hooks.http.app);
         
-        // Encrypt the password
-        Passwords.encryptPassword({
-          password: 'abc123'
-        })
-        .exec({
-          error: done,
-          success: function(password) {
-
-            // Create the user
-            User.create({
-              username: 'test',
-              email: 'test@test.com',
-              encryptedPassword: password
-            })
-            .exec(function(err, user) {
-              if(err) { return done(err); }
-
-              // Authenticate the newly created user
-              agent
-              .put('/login')
-              .send({
-                username: 'test',
-                password: 'abc123'
-              })
-              .set('Content-Type', 'application/json')
-              .end(function(err, res) {
-                if(err) { return done(err); }
-                console.log('res.status', res.status);
-                return done();
-              });
-            });
-          }
-        });
+        // Calling the helper function to create and authenticate a user
+        // passing the agent dictionary that simulates a browser
+        // passing the callback making this an asychronous function
+        createUserAndAuthenticate(agent, done);
       });
 
       it('should return a 403 response code', function(done) {
@@ -78,7 +50,6 @@ describe('User Controller :: ', function() {
           return done();
         });
       });
-
     });
 
     // // Loggedout policy
