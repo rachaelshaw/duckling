@@ -16,7 +16,7 @@ describe('User Controller :: ', function() {
       // Before we start the test, create a user and then login
       before(function(done) {
 
-        var createUserAndAuthenticate = require('../utils/create-logged-in-user');
+        var createTestUserAndAuthenticate = require('../utils/create-logged-in-user');
 
         // By using request.agent and passing in the app dictionary we can
         // now simulate persistent cookies in addition to making requests.
@@ -27,7 +27,7 @@ describe('User Controller :: ', function() {
         // Calling the helper function to create and authenticate a user
         // passing the agent dictionary that simulates a browser
         // passing the callback making this an asychronous function
-        createUserAndAuthenticate(agent, done);
+        createTestUserAndAuthenticate(agent, done);
       });
 
       it('should return a 403 response code', function(done) {
@@ -52,99 +52,75 @@ describe('User Controller :: ', function() {
       });
     });
 
-    // // Loggedout policy
-
-    // describe('When logged out ::', function() {
+    // Loggedout policy
+    describe('When logged out ::', function() {
       
-    //   // Email validation
-    //   describe('With an invalid email address', function() {
+      // Email validation
+      describe('With an invalid email address', function() {
 
-    //     // missing email
-    //     it('should return a 400 status code when missing', function(done) {
+        // missing email
+        it('should return a 400 status code when missing', function(done) {
 
-    //       // Make the http request
-    //       request(sails.hooks.http.app)
-    //       .post('/user/signup')
-    //       .send({
-    //         username: 'foo',
-    //         password: 'barbaz'
-    //       })
-    //       .set('Content-Type', 'application/json')
-    //       .end(function(err, res) {
-    //         if(err) { return done(err); }
+          // Make the http request
+          request(sails.hooks.http.app)
+          .post('/user/signup')
+          .send({
+            username: 'foo',
+            password: 'barbaz'
+          })
+          .set('Content-Type', 'application/json')
+          .end(function(err, res) {
+            if(err) { return done(err); }
 
-    //         // Check that the status code is a 400
-    //         assert.equal(res.statusCode, 400);
+            console.log('res.statusCode: ', res.statusCode);
+            // Check that the status code is a 400
+            assert.equal(res.statusCode, 400);
 
-    //         done();
-    //       });
-    //     });
+            return done();
+          });
+        });
+      });
 
-    //     // malformed email
-    //     it('should return a 400 status code when malformed', function(done) {
-    //       // Make the http request
-    //       request(sails.hooks.http.app)
-    //       .post('/user/signup')
-    //       .send({
-    //         username: 'foo',
-    //         password: 'barbaz',
-    //         email: 'foobarbaz'
-    //       })
-    //       .set('Content-Type', 'application/json')
-    //       .end(function(err, res) {
-    //         if(err) { return done(err); }
+      describe('With valid properties', function() {
 
-    //         // Check that the status code is a 400
-    //         assert.equal(res.statusCode, 400);
+        // Hold the response so that we can test it
+        var userResponse;
 
-    //         done();
-    //       });
-    //     });
+        // Create the new user
+        before(function(done) {
+          request(sails.hooks.http.app)
+          .post('/user/signup')
+          .send({
+            username: 'foo',
+            password: 'barbaz',
+            email: 'foo.bar@baz.com'
+          })
+          .set('Content-Type', 'application/json')
+          .end(function(err, res) {
+            if(err) { return done(err); }
+            userResponse = res;
+            done();
+          });
+        });
 
-    //   });
+        it('should return a 200 response code', function() {
+          assert.equal(userResponse.statusCode, 200);
+        });
 
-    //   describe('With valid properties', function() {
+        it('should return the username of the user in the body', function() {
+          assert.equal(userResponse.body.username, 'foo');
+        });
 
-    //     // Hold the response so that we can test it
-    //     var userResponse;
-
-    //     // Create the new user
-    //     before(function(done) {
-    //       request(sails.hooks.http.app)
-    //       .post('/user/signup')
-    //       .send({
-    //         username: 'foo',
-    //         password: 'barbaz',
-    //         email: 'foo.bar@baz.com'
-    //       })
-    //       .set('Content-Type', 'application/json')
-    //       .end(function(err, res) {
-    //         if(err) { return done(err); }
-    //         userResponse = res;
-    //         done();
-    //       });
-    //     });
-
-    //     it('should return a 200 response code', function() {
-    //       assert.equal(userResponse.statusCode, 200);
-    //     });
-
-    //     it('should return the username of the user in the body', function() {
-    //       assert.equal(userResponse.body.username, 'foo');
-    //     });
-
-    //     it('should set the gravatar on the user record', function(done) {
-    //       User.findOne({ username: 'foo' }).exec(function(err, user) {
-    //         if(err) { return done(err); }
-    //         assert(user);
-    //         assert(user.gravatarURL);
-    //         assert.notEqual(user.gravatarURL, '');
-    //         done();
-    //       });
-    //     });
-
-    //   });
-
-    // });
+        it('should set the gravatar on the user record', function(done) {
+          User.findOne({ username: 'foo' }).exec(function(err, user) {
+            if(err) { return done(err); }
+            assert(user);
+            assert(user.gravatarURL);
+            assert.notEqual(user.gravatarURL, '');
+            done();
+          });
+        });
+      });
+    });
   });
 });

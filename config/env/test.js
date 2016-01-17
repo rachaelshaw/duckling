@@ -23,4 +23,6 @@ module.exports = {
     adapter: 'memory'
   },
 
+  csrf: false
+
 };
