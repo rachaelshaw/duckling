@@ -82,7 +82,6 @@ describe('User Controller :: ', function() {
       });
 
       describe('With valid properties', function() {
-
         // Hold the response so that we can test it
         var userResponse;
 
@@ -117,7 +116,7 @@ describe('User Controller :: ', function() {
             assert(user);
             assert(user.gravatarURL);
             assert.notEqual(user.gravatarURL, '');
-            done();
+            return done();
           });
         });
       });
