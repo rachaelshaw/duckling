@@ -1,7 +1,3 @@
-/**
- * Just a handful of helper mixins for doing cool CSS animations.
- */
-
 //Transforms/transitions
 .transition (@transition: 250ms) {
     -webkit-transition: @transition;
@@ -10,7 +6,7 @@
     -o-transition     : @transition;
 }
 
-.transitionDelay(@delay) {
+.transition-delay(@delay) {
   -webkit-transition-delay:@delay;
   -moz-transition-delay:@delay;
   -o-transition-delay:@delay;
@@ -36,12 +32,12 @@
     -o-transform     : rotate(@deg);
     transform        : rotate(@deg);
 }
-.skew (@deg, @deg2) {
-    -webkit-transform: skew(@deg, @deg2);
-    -moz-transform   : skew(@deg, @deg2);
-    -ms-transform    : skew(@deg, @deg2);
-    -o-transform     : skew(@deg, @deg2);
-    transform        : skew(@deg, @deg2);
+.skew (@deg) {
+    -webkit-transform: skew(@deg);
+    -moz-transform   : skew(@deg);
+    -ms-transform    : skew(@deg);
+    -o-transform     : skew(@deg);
+    transform        : skew(@deg);
 }
 .translate (@x, @y) {
     -webkit-transform: translate(@x, @y);
@@ -53,7 +49,7 @@
 
 
 //Animation properties:
-.animationDelay(@delay) {
+.animation-delay(@delay) {
     -moz-animation-delay: @delay;
     -webkit-animation-delay: @delay;
     -ms-animation-delay: @delay;
@@ -61,7 +57,7 @@
     animation-delay: @delay;
 }
 
-.animationName(@name) {
+.animation-name(@name) {
     -moz-animation-name: @name;
     -webkit-animation-name: @name;
     -ms-animation-name: @name;
@@ -69,7 +65,7 @@
     animation-name: @name;
 }
 
-.animationDuration(@duration) {
+.animation-duration(@duration) {
     -moz-animation-duration: @duration;
     -webkit-animation-duration: @duration;
     -ms-animation-duration: @duration;
@@ -77,7 +73,7 @@
     animation-duration: @duration;
 }
 
-.animationIterationCount(@iterationCount) {
+.animation-iteration-count(@iterationCount) {
     -moz-animation-iteration-count: @iterationCount;
     -webkit-animation-iteration-count: @iterationCount;
     -ms-animation-iteration-count: @iterationCount;
@@ -85,7 +81,7 @@
     animation-iteration-count: @iterationCount;
 }
 
-.animationDirection(@direction) {
+.animation-direction(@direction) {
     -moz-animation-direction: @direction;
     -webkit-animation-direction: @direction;
     -ms-animation-direction: @direction;
@@ -94,8 +90,8 @@
 }
 
 //Animations
-.fadeIn() {
-  .animationName(fade-in);
+.fade-in() {
+  .animation-name(fade-in);
   @-webkit-keyframes fade-in {
     0%    {opacity: 0;}
     100%  {opacity: 1;}
@@ -115,8 +111,8 @@
 }
 
 //Animations
-.fadeInOut() {
-  .animationName(fade-in);
+.fade-in-out() {
+  .animation-name(fade-in);
   @-webkit-keyframes fade-in {
     0%   {opacity: 0;}
     50%  {opacity: 1;}
@@ -143,7 +139,7 @@
   -webkit-animation: glow 1.5s ease-in-out;
   -moz-animation: glow 1.5s ease-in-out;
   animation: glow 1.5s ease-in-out;
-  .animationIterationCount(infinite);
+  .animation-iteration-count(infinite);
 
   @-webkit-keyframes glow {
     0%   {opacity: 0.3; .scale(0.65);}
@@ -171,7 +167,7 @@
   -webkit-animation: pulse 1.5s ease-in-out;
   -moz-animation: pulse 1.5s ease-in-out;
   animation: pulse 1.5s ease-in-out;
-  .animationIterationCount(infinite);
+  .animation-iteration-count(infinite);
 
   @-webkit-keyframes pulse {
     0%   {opacity: 0.3; .scale(0.65);}
@@ -196,9 +192,8 @@
 }
 
 
-
-// A little spinning animation
-.loadingSpin() {
+// Loading spinner animation
+.loading-spin() {
   -webkit-animation:spin 1s linear infinite;
   -moz-animation:spin 1s linear infinite;
   animation:spin 1s linear infinite;
@@ -215,3 +210,8 @@
    100% {.rotate(360deg)};
   }
 }
+
+
+
+
+

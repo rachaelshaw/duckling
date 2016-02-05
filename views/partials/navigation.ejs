@@ -2,8 +2,10 @@
 <nav class="navigation navbar navbar-inverse navbar-fixed-top">
   <div ng-controller="navPageController" ng-cloak class="container-fluid">
     <!-- Handles loading issue for fontawesome -->
-    <div class="outer">
-      <div class="inner fa fa-spinner"></div>
+    <div class="loading-spinner">
+      <div class="outer">
+        <div class="inner fa fa-spinner"></div>
+      </div>
     </div>
     <!-- This creates the mechanism for collapse button -->
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -36,7 +38,7 @@
           <% if (typeof showAddTutorialButton !== 'undefined' && showAddTutorialButton) { %>
             <li style="margin-right:5px"><p class="navbar-btn"><a type="button" class="btn btn-primary" href="/tutorials/new">add tutorial</a></p></li>
           <% } %>
-          <li class="gravatarSm"><img class="gravatarSm" ng-src="<%= me && me.gravatarURL%>" height="30" width="30"/></li>
+          <li class="avatar-sm"><img class="avatar-sm" ng-src="<%= me && me.gravatarURL%>" height="30" width="30"/></li>
           <li class="activityOverlord active">
             <% /* if `me` is null, this would show an error (since you can't get `null.email`.)  So we check to be sure `me` exists. */ %>
             <a href="/<%= me.username %>" class="pointer"> <%= me && me.username%></a>
