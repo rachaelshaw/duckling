@@ -36,15 +36,27 @@
       else if (me) { %>
         <ul class="nav navbar-nav navbar-right">
           <% if (typeof showAddTutorialButton !== 'undefined' && showAddTutorialButton) { %>
-            <li><p class="navbar-btn"><a type="button" class="btn btn-primary" href="/tutorials/new">add tutorial</a></p></li>
+            <!-- <li><p class="navbar-btn"><a type="button" class="add-tutorial-btn btn" href="/tutorials/new">add tutorial</a></p></li> -->
           <% } %>
-          <li class="avatar-sm"><img class="avatar-sm" ng-src="<%= me && me.gravatarURL%>" height="30" width="30"/></li>
-          <li class="activityOverlord active">
-            <% /* if `me` is null, this would show an error (since you can't get `null.email`.)  So we check to be sure `me` exists. */ %>
-            <a href="/<%= me.username %>" class="pointer"> <%= me && me.username%></a>
+          <li class="me">
+            <span class="user-dropdown" ng-click="menuVisible = true">
+              <img class="avatar" ng-src="<%= me && me.gravatarURL%>"/>
+              <% /* if `me` is null, this would show an error (since you can't get `null.email`.)  So we check to be sure `me` exists. */ %>
+              <span class="username"><%= me && me.username%></span>
+              <i class="dropdown-arrow fa fa-angle-down"></i>
+            </span>
+            <div class="user-menu-wrapper" ng-class="{'visible':menuVisible}">
+              <div class="user-menu-veil" ng-click="menuVisible = false"></div>
+              <div class="user-menu">
+                <div class="list-group user-menu-items">
+                  <a class="user-menu-item list-group-item" href="/tutorials/new">Add Tutorial</a>
+                  <a class="user-menu-item list-group-item" href="/<%= me.username %>">Your Profile</a>
+                  <a class="user-menu-item list-group-item" ng-click="signout()">Sign Out</a>
+                </div>
+              </div>
+            </div>
           </li>
           <li>
-            <a ng-click="signout()">sign-out</a>
           </li>
         </ul>
       <% } %>
