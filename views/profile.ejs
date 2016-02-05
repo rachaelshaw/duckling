@@ -1,15 +1,15 @@
 <script type="text/javascript">
   window.SAILS_LOCALS.frontEnd = <%-
     // Note that by putting these comments inside of the EJS tag, we prevent them from
-    // being sent down to client (i.e. they are boiled away on the server along 
+    // being sent down to client (i.e. they are boiled away on the server along
     // with the EJS tags)
     //
     // Notice we must check that `stars` exists using typeof to keep EJS from throwing
     // and displaying an ugly error message when rendering certain pages
     // (i.e. 404 /500 error pages)
     typeof frontEnd !== 'undefined' ? JSON.stringify(frontEnd) : 'null'
-    // Note that we deliberately use 'null' (a string) because EJS converts the 
-    // `null` literal  into empty string (''), which is not what we want (that would 
+    // Note that we deliberately use 'null' (a string) because EJS converts the
+    // `null` literal  into empty string (''), which is not what we want (that would
     // be invalid JS and cause a client-side error in the browser)
     %>;
 </script>
@@ -30,7 +30,7 @@
     <% } %>
   </div>
   <div class="row">
-    <div style="margin-top: 10px;">
+    <div>
       <div class= "col-md-2 col-md-offset-1">
         <ul class="list-group">
           <li class="list-group-item">
@@ -62,7 +62,7 @@
                 Unfollow me <span class="badge"><span class="fa fa-user"></span></span>
               </button>
             </div>
-        
+
         <% } %>
       </div>
     </div>
@@ -71,12 +71,12 @@
     <% if (me && me.isMe ) { %>
       <h1>My Tutorials</h1>
       <% if (tutorials.length === 0) { %>
-        <p style="font-size: 1.5em"> you don’t have any tutorials yet, want to <a href="/tutorials/new">add</a> one? </p>
+        <p> you don’t have any tutorials yet, want to <a href="/tutorials/new">add</a> one? </p>
       <% } %>
     <% } else { %>
       <h1><%= username %>'s Tutorials</h1>
       <% if (tutorials.length === 0) { %>
-        <p style="font-size: 1.25em"> ...no videos yet.</p>
+        <p> ...no videos yet.</p>
       <% } %>
     <% } %>
     <% if (tutorials.length !== 0) { %>
@@ -85,11 +85,11 @@
           <div class="list-group">
             <% _.forEach(tutorials, function(tutorial){ %>
             <a href="/tutorials/<%= tutorial.id %>" class="list-group-item tutorials-list">
-              <div class="col-md-11" style="margin-top: 25px">
+              <div class="col-md-11">
                 <h3 class="list-group-item-heading">
                 <%- tutorial.title %>
                 </h3>
-                <p class="list-group-item-text" style="font-size: 1.2em">
+                <p class="list-group-item-text">
                   <%- tutorial.description %>
                 </p>
                 <ul class="list-inline list-unstyled">

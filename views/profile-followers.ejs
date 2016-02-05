@@ -31,7 +31,7 @@
   </div>
 
   <div class="row">
-    <div style="margin-top: 10px;">
+    <div>
       <div class= "col-md-2 col-md-offset-1">
         <ul class="list-group">
           <a href="/<%= username %>">
@@ -69,9 +69,9 @@
       </div>
     </div>
   </div>
-  <div class="container" ng-cloak style="margin-top: 20px;">
+  <div class="container" ng-cloak>
     <div ng-if="followers.length < 1">
-      <p style="font-size: 1.5em"> no followers yet.</p>
+      <p> no followers yet.</p>
     </div>
     <div ng-if="me && me.isMe && followers.length > 0">
       <h1>My Followers</h1>
@@ -80,7 +80,7 @@
       <h1><%= username%>'s Followers</h1>
     </div>
     <div ng-if="followers.length">
-      <div class="well" style="background-color : #dddddd;">
+      <div class="well">
         <div class="row">
           <div ng-repeat="follower in followers">
             <a href="/{{ follower.username }}">
