@@ -29,12 +29,21 @@
 //
 // etc.
 
+// CSS Reset
+// (to make styles consistent across different browsers)
+@import 'reset.less';
+
 // CSS/LESS dependencies
 @import 'fontawesome.less';
 
 // Helper mixins
+@import 'colors.less';
+@import 'gradients.less';
 @import 'mixins/animations.less';
 
 // The rest of the styles
 @import 'custom.less';
 @import 'loading-spinner.less';
+
+// Individual page styles
+@import 'pages/importer.less';
