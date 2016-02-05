@@ -48,45 +48,46 @@
           </div>
 
           <div class="well">
-            <div class="list-group" ng-hide="noResults">
-              <div ng-repeat="tutorial in tutorials">
+            <ul class="list-group" ng-hide="noResults">
+              <li class="tutorial list-group-item" ng-repeat="tutorial in tutorials">
                 <a href="/tutorials/{{tutorial.id}}" class="list-group-item tutorials-list">
-                  <div class="col-md-11">
-                    <h3 class="list-group-item-heading">
-                    {{ tutorial.title }}
-                    </h3>
-                    <p class="list-group-item-text">
-                      {{ tutorial.description }}
-                    </p>
-                    <ul class="list-inline list-unstyled">
-                      <li>|</li>
-                      <li>
-                        <span>by: <i class="fa fa-user"></i>  {{ tutorial.owner }}</span>
-                      </li>
-                      <li>|</li>
-                      <li>
-                        <span>created {{ tutorial.created }}</span>
-                      </li>
-                      <li>|</li>
-                      <li>
-                        <span><i class="fa fa-video-camera"></i>  {{ tutorial.totalTime }}</span>
-                      </li>
-                      <li>|</li>
-                      <li>
-                        <span>rating average: <rating ng-model="tutorial.averageRating" max="max" readonly="isReadonly" on-hover="hoveringOver(value, tutorial.id)" on-leave="overStar = null"></rating></span>
-                      </li>
-                      <li>|</li>
-                    </ul>
-                  </div>
+                  <h3 class="tutorial-title list-group-item-heading">
+                  {{ tutorial.title }}
+                  </h3>
+                  <p class="tutorial-description list-group-item-text">
+                    {{ tutorial.description }}
+                  </p>
+                  <ul class="tutorial-details list-inline list-unstyled">
+                    <li>
+                      <span><i class="icon fa fa-user"></i> By {{ tutorial.owner }}</span>
+                    </li>
+                    <li class="divider">|</li>
+                    <li>
+                      <span>Created {{ tutorial.created }}</span>
+                    </li>
+                    <li class="divider">|</li>
+                    <li>
+                      <span><i class="icon fa fa-video-camera"></i>  {{ tutorial.totalTime }}</span>
+                    </li>
+                    <li class="divider">|</li>
+                    <li>
+                      <span>
+                        <span class="rating-label">Average Rating:</span>
+                        <span class="rating-stars">
+                          <rating ng-model="tutorial.averageRating" max="max" readonly="isReadonly" on-hover="hoveringOver(value, tutorial.id)" on-leave="overStar = null"></rating>
+                        </span>
+                      </span>
+                    </li>
+                  </ul>
                 </a>
-              </div>
-            </div>
+              </li><!-- </list-group-item> -->
+            </ul><!-- </list-group> -->
             <p ng-show="noResults">Sorry! We couldn't find any tutorials that matched your query. Perhaps try something else?</p>
             <button class="btn btn-primary center-block" ng-click="fetchMoreTutorialsLikeThis()" ng-disabled="loading || noMoreTutorials" ng-hide="noResults">
             <span ng-show="!loading">showing more tutorials</span>
             <span ng-show="loading"><i class="overlord-loading-spinner fa fa-spinner" ></i></span>
             </button>
-          </div>
+          </div> <!-- </well> -->
         </div>
       </div>
     </div>
