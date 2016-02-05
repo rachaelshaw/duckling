@@ -1,0 +1,80 @@
+.video-page {
+  padding-top: 50px;
+  padding-bottom: 100px;
+  .video-title-banner {
+    .sunset();
+    .border-box();
+    padding-top: 50px;
+    padding-bottom: 50px;
+    margin-bottom: 50px;
+    position: relative;
+    padding-right: 200px;
+    .video-title {
+      .section-header();
+      color: @white;
+      margin-bottom: 0px;
+    }
+    .back {
+      position: absolute;
+      width: 200px;
+      right: 20px;
+      top: 50px;
+      text-align: right;
+      .back-btn {
+        color: @white;
+        border: 1px solid @white;
+        .transition(all 250ms);
+        .icon {
+          margin-right: 10px;
+        }
+        &:hover {
+          background-color: @black;
+        }
+      }
+    }
+  }
+  .video-column {
+    .border-box();
+    height: 450px;
+    .panel {
+      height: 100%;
+      .back {
+        margin-top: 5px;
+        .icon {
+          color: @blue;
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+  .chat-column {
+    .border-box();
+    height: 450px;
+    .panel {
+      height: 450px;
+      padding-top: 43px;
+      padding-bottom: 51px;
+      position: relative;
+      .panel-heading {
+        // .border-box();
+        height: 43px;
+        width: 100%;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+      }
+      .panel-body {
+        height: 100%;
+        overflow: auto;
+      }
+      .panel-footer {
+        // .border-box();
+        height: 51px;
+        width: 100%;
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+      }
+    }
+  }
+}

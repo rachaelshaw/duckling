@@ -9,20 +9,30 @@ typeof chats !== 'undefined' ? JSON.stringify(chats) : 'null'
 // be invalid JS and cause a client-side error in the browser)
 %>;
 </script>
-<div ng-controller="showVideoPageController" ng-cloak>
-  <div class="container-fluid col-md-5">
-    <h3><%= video.title %></h3>
-    <iframe width="640" height="390" ng-src="<%= video.src %>" frameborder="0" allowfullscreen>
-    </iframe>
-    <div class="row text-center">
-      <a href="/tutorials/<%= tutorialId %>">return to tutorial</a>
+<div ng-controller="showVideoPageController" ng-cloak class="video-page">
+  <div class="container-fluid">
+    <div class="row video-title-banner">
+      <div class="col-md-12">
+        <h1 class="video-title"><%= video.title %></h1>
+      </div>
+      <div class="back">
+        <a class="back-btn btn btn-lg" href="/tutorials/<%= tutorialId %>">Back to Tutorial</a>
+      </div>
     </div>
-  </div>
-  <form role="form" ng-submit="sendMessage()">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-5 col-md-offset-2">
-          <div class="panel panel-primary">
+    <div class="row">
+      <div class="video-column col-md-8">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="video embed-responsive embed-responsive-16by9">
+              <iframe class="embed-responsive-item" width="640" height="390" ng-src="<%= video.src %>" frameborder="0" allowfullscreen>
+              </iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="chat-column col-md-4">
+        <form role="form" ng-submit="sendMessage()">
+          <div class="panel panel-default">
             <div class="panel-heading">
               <i class="fa fa-comment"> Chat</i>
             </div>
@@ -57,8 +67,8 @@ typeof chats !== 'undefined' ? JSON.stringify(chats) : 'null'
               </div>
             </div>
           </div><!-- class="panel panel-primary" -->
-        </div><!-- class="col-md-5 col-md-offset-2"  -->
-      </div><!-- class="row"  -->
-    </div><!-- class="container"  -->
-  </form>  
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
