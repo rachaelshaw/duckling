@@ -37,17 +37,15 @@ typeof chats !== 'undefined' ? JSON.stringify(chats) : 'null'
               <i class="fa fa-comment"> Chat</i>
             </div>
             <div class="panel-body">
-              <ul class="chat">
-                <li class="left clearfix" ng-repeat="chat in chats">
-                  <span class="chat-img pull-left">
-                    <img class="gravatarSm" ng-src="{{chat.gravatarURL}}" height="30" width="30">
-                  </span>
-                  <div class="chat-body clearfix">
+              <ul class="chat-window">
+                <li class="chat clearfix" ng-repeat="chat in chats">
+                  <div class="chat-body">
+                    <img class="chat-avatar"ng-src="{{chat.gravatarURL}}">
                     <div class="header">
-                      <strong class="primary-font">{{chat.username}} </strong> <small class="pull-right text-muted">
-                      <span class="glyphicon glyphicon-time"></span>{{chat.created}}</small>
+                      <span class="username">{{chat.username}} </span>
+                      <small class="pull-right">{{chat.created}}</small>
                     </div>
-                    <p>
+                    <p class="message">
                       {{chat.message}}
                     </p>
                   </div>
@@ -61,7 +59,7 @@ typeof chats !== 'undefined' ? JSON.stringify(chats) : 'null'
               <div class="input-group">
                 <input id="btn-input" type="text" class="form-control input-sm" ng-model="message"placeholder="Type your message here..." ng-keypress="whenTyping($event)" ng-blur="whenNotTyping($event)" ng-disabled="!me">
                 <span class="input-group-btn">
-                  <button type="submit" ng-disabled="!hasJoinedRoom || !me" class="btn btn-success btn-sm" id="btn-chat">
+                  <button type="submit" ng-disabled="!hasJoinedRoom || !me" class="btn btn-info btn-sm" id="btn-chat">
                   Send</button>
                 </span>
               </div>
